@@ -1,46 +1,45 @@
-import type { Parser, ParserData } from './types';
+import type { Parser, ParserData } from "./types";
 
 type NotFunc = (p: Parser<unknown>) => Parser<null>;
-export const not: NotFunc = (p) => (input) => {
-  if (p(input).result === 'success') {
-    return { result: 'fail' };
-  } else {
-    return { result: 'success', data: null, rest: input };
-  }
-};
+export const not: NotFunc = p => input => {
+    const { line, col } = input;
+    if (p(input).result === 'success') {
+        return { result: 'fail', line, col };
+    } else {
+        return { result: 'success', data: null, rest: input };
+    }
+}
 
 type OrFunc = <T>(ps: Parser<T>[]) => Parser<T>;
-export const or: OrFunc = (ps) => (input) => {
-  for (const p of ps) {
-    const r = p(input);
-    if (r.result === 'success') return r;
-  }
-  return { result: 'fail' };
-};
+export const or: OrFunc = ps => input => {
+    const { line, col } = input;
+    for (const p of ps) {
+        const r = p(input);
+        if (r.result === 'success') return r;
+    }
+    return { result: 'fail', line, col };
+}
 
-type CatFunc = <T extends Parser<unknown>[]>(
-  ps: [...T]
-) => Parser<{ [K in keyof T]: ParserData<T[K]> }>;
-export const cat: CatFunc = (ps) => (input) => {
-  const rs = [];
-  let i = input;
-  for (const p of ps) {
-    const r = p(i);
-    if (r.result === 'fail') return r;
-    rs.push(r.data);
-    i = r.rest;
-  }
-  return {
-    result: 'success',
-    data: rs as ParserData<ReturnType<ReturnType<CatFunc>>>,
-    rest: i,
-  };
-};
+type CatFunc = <T extends Parser<unknown>[]>(ps: [...T]) => Parser<{ [K in keyof T]: ParserData<T[K]> }>;
+export const cat: CatFunc = ps => input => {
+    const rs = [];
+    let i = input;
+    for (const p of ps) {
+        const r = p(i);
+        if (r.result === 'fail') return r;
+        rs.push(r.data);
+        i = r.rest;
+    }
+    return {
+        result: 'success',
+        data: rs as ParserData<ReturnType<ReturnType<CatFunc>>>,
+        rest: i,
+    }
+}
 
 type RepFunc = <T>(p: Parser<T>, min?: number, max?: number) => Parser<T[]>;
-export const rep: RepFunc =
-  (p, min = 0, max = Number.POSITIVE_INFINITY) =>
-  (input) => {
+export const rep: RepFunc = (p, min = 0, max = Number.POSITIVE_INFINITY) => input => {
+    const { line, col } = input;
     if (min > max) throw new Error('rep: min > max is not allowed.');
     if (min < 0) throw new Error('rep: negative min is not allowed.');
     if (max < 0) throw new Error('rep: negative max is not allowed.');
@@ -48,15 +47,15 @@ export const rep: RepFunc =
     const rs: ParserData<typeof p>[] = [];
     let i = input;
     for (let n = 0; n < max; n++) {
-      const r = p(i);
-      if (r.result === 'fail') break;
-      rs.push(r.data);
-      i = r.rest;
+        const r = p(i);
+        if (r.result === 'fail') break;
+        rs.push(r.data);
+        i = r.rest;
     }
-    if (rs.length < min) return { result: 'fail' };
+    if (rs.length < min) return { result: 'fail', line, col };
     return {
-      result: 'success',
-      data: rs,
-      rest: i,
+        result: 'success',
+        data: rs,
+        rest: i,
     };
-  };
+};

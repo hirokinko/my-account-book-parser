@@ -8,40 +8,70 @@ describe('not(char("a"))', () => {
   const parser = not(char('a'));
 
   test('Empty input', () => {
-    const input = [] as const;
+    const input = {
+      inputs: [],
+      line: 0,
+      col: 0,
+    };
     const output = parser(input);
     assert.deepStrictEqual<ParserOutput<null>>(output, {
       result: 'success',
       data: null,
-      rest: [],
+      rest: {
+        inputs: [],
+        line: 0,
+        col: 0,
+      },
     });
   });
 
   test('Input "a"', () => {
-    const input = [...'a'];
+    const input = {
+      inputs: [...'a'],
+      line: 0,
+      col: 0,
+    };
     const output = parser(input);
     assert.deepStrictEqual<ParserOutput<null>>(output, {
       result: 'fail',
+      line: 0,
+      col: 0,
     });
   });
 
   test('Input "A"', () => {
-    const input = [...'A'];
+    const input = {
+      inputs: [...'A'],
+      line: 0,
+      col: 0,
+    };
     const output = parser(input);
     assert.deepStrictEqual<ParserOutput<null>>(output, {
       result: 'success',
       data: null,
-      rest: [...'A'],
+      rest: {
+        inputs: [...'A'],
+        line: 0,
+        col: 0,
+      },
     });
   });
 
   test('Input "hoge"', () => {
-    const input = [...'hoge'];
+    const input = {
+      inputs: [...'hoge'],
+      line: 0,
+      col: 0,
+    };
     const output = parser(input);
     assert.deepStrictEqual<ParserOutput<null>>(output, {
       result: 'success',
       data: null,
-      rest: [...'hoge'],
+      rest: {
+        inputs: [...'hoge'],
+        line: 0,
+        col: 0,
+      },
     });
   });
 });
@@ -51,18 +81,30 @@ describe('or()', () => {
     const parser = or([]);
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<unknown>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
 
     test('Input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<unknown>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
   });
@@ -71,38 +113,66 @@ describe('or()', () => {
     const parser = or([char('a'), char('b')]);
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a' | 'b'>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
 
     test('Input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a' | 'b'>>(output, {
         result: 'success',
         data: 'a',
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 1,
+        },
       });
     });
 
     test('Input "b"', () => {
-      const input = [...'b'];
+      const input = {
+        inputs: [...'b'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a' | 'b'>>(output, {
         result: 'success',
         data: 'b',
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 1,
+        },
       });
     });
 
     test('Input "A"', () => {
-      const input = [...'A'];
+      const input = {
+        inputs: [...'A'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a' | 'b'>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
   });
@@ -113,22 +183,38 @@ describe('cat()', () => {
     const parser = cat([]);
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<[]>>(output, {
         result: 'success',
         data: [],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 0,
+        },
       });
     });
 
     test('Input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<[]>>(output, {
         result: 'success',
         data: [],
-        rest: [...'a'],
+        rest: {
+          inputs: [...'a'],
+          line: 0,
+          col: 0,
+        },
       });
     });
   });
@@ -137,36 +223,62 @@ describe('cat()', () => {
     const parser = cat([char('a'), char('b')]);
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<['a', 'b']>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
 
     test('input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<['a', 'b']>>(output, {
         result: 'fail',
+        line: 0,
+        col: 1,
       });
     });
 
     test('input "abc"', () => {
-      const input = [...'abc'];
+      const input = {
+        inputs: [...'abc'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<['a', 'b']>>(output, {
         result: 'success',
         data: ['a', 'b'],
-        rest: [...'c'],
+        rest: {
+          inputs: [...'c'],
+          line: 0,
+          col: 2,
+        },
       });
     });
 
     test('input "A"', () => {
-      const input = [...'A'];
+      const input = {
+        inputs: [...'A'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<['a', 'b']>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
   });
@@ -177,42 +289,74 @@ describe('rep()', () => {
     const parser = rep(char('a'));
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: [],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 0,
+        },
       });
     });
 
     test('Input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a'],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 1,
+        },
       });
     });
 
     test('Input "aa"', () => {
-      const input = [...'aa'];
+      const input = {
+        inputs: [...'aa'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a', 'a'],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 2,
+        },
       });
     });
 
     test('Input "aab"', () => {
-      const input = [...'aab'];
+      const input = {
+        inputs: [...'aab'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a', 'a'],
-        rest: [...'b'],
+        rest: {
+          inputs: [...'b'],
+          line: 0,
+          col: 2,
+        },
       });
     });
   });
@@ -221,40 +365,70 @@ describe('rep()', () => {
     const parser = rep(char('a'), 1);
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
 
     test('Input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a'],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 1,
+        },
       });
     });
 
     test('Input "aa"', () => {
-      const input = [...'aa'];
+      const input = {
+        inputs: [...'aa'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a', 'a'],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 2,
+        },
       });
     });
 
     test('Input "aab"', () => {
-      const input = [...'aab'];
+      const input = {
+        inputs: [...'aab'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a', 'a'],
-        rest: [...'b'],
+        rest: {
+          inputs: [...'b'],
+          line: 0,
+          col: 2,
+        },
       });
     });
   });
@@ -263,40 +437,70 @@ describe('rep()', () => {
     const parser = rep(char('a'), 1, 2);
 
     test('Empty input', () => {
-      const input = [] as const;
+      const input = {
+        inputs: [],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'fail',
+        line: 0,
+        col: 0,
       });
     });
 
     test('Input "a"', () => {
-      const input = [...'a'];
+      const input = {
+        inputs: [...'a'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a'],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 1,
+        },
       });
     });
 
     test('Input "aa"', () => {
-      const input = [...'aa'];
+      const input = {
+        inputs: [...'aa'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a', 'a'],
-        rest: [],
+        rest: {
+          inputs: [],
+          line: 0,
+          col: 2,
+        },
       });
     });
 
     test('Input "aaa"', () => {
-      const input = [...'aaa'];
+      const input = {
+        inputs: [...'aaa'],
+        line: 0,
+        col: 0,
+      };
       const output = parser(input);
       assert.deepStrictEqual<ParserOutput<'a'[]>>(output, {
         result: 'success',
         data: ['a', 'a'],
-        rest: [...'a'],
+        rest: {
+          inputs: [...'a'],
+          line: 0,
+          col: 2,
+        },
       });
     });
   });

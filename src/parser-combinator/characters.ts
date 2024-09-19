@@ -17,3 +17,6 @@ export const CHAR_TAB = char('\t');
 export const CHAR_NEWLINE = char('\n');
 export const CHAR_CARRIAGE_RETURN = char('\r');
 export const CHAR_SPACE = char(' ');
+
+// for Date Time
+export const CHAR_COLON = char(':');
