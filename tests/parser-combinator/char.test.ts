@@ -6,12 +6,14 @@ import {
   upperAlpha,
   lowerAlpha,
   digit,
+  hex,
 } from '../../src/parser-combinator/char';
 import type {
   Alphabet,
   UpperAlphabet,
   LowerAlphabet,
   Digit,
+  Hex,
 } from '../../src/parser-combinator/char';
 import type { ParserOutput } from '../../src/parser-combinator/types';
 import assert from 'node:assert/strict';
@@ -428,6 +430,106 @@ describe('digit', () => {
         line: 0,
         col: 1,
       },
+    });
+  });
+});
+
+describe('hex', () => {
+  const parser = hex;
+
+  test('Empty input', () => {
+    const input = {
+      inputs: [],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<Hex>>(output, {
+      result: 'fail',
+      line: 0,
+      col: 0,
+    });
+  });
+
+  test('Input "a"', () => {
+    const input = {
+      inputs: [...'a'],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<Hex>>(output, {
+      result: 'success',
+      data: 'a',
+      rest: {
+        inputs: [],
+        line: 0,
+        col: 1,
+      },
+    });
+  });
+
+  test('Input "A"', () => {
+    const input = {
+      inputs: [...'A'],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<Hex>>(output, {
+      result: 'success',
+      data: 'A',
+      rest: {
+        inputs: [],
+        line: 0,
+        col: 1,
+      },
+    });
+  });
+
+  test('Input "1"', () => {
+    const input = {
+      inputs: [...'1'],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<Hex>>(output, {
+      result: 'success',
+      data: '1',
+      rest: {
+        inputs: [],
+        line: 0,
+        col: 1,
+      },
+    });
+  });
+
+  test('Input "g"', () => {
+    const input = {
+      inputs: [...'g'],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<Hex>>(output, {
+      result: 'fail',
+      line: 0,
+      col: 0,
+    });
+  });
+
+  test('Input "G"', () => {
+    const input = {
+      inputs: [...'G'],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<Hex>>(output, {
+      result: 'fail',
+      line: 0,
+      col: 0,
     });
   });
 });

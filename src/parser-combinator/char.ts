@@ -70,3 +70,20 @@ export const alpha: Parser<Alphabet> = is((c): c is Alphabet =>
 export type Digit = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 
 export const digit: Parser<Digit> = is((c): c is Digit => /^\d$/.test(c));
+
+export type Hex =
+  | Digit
+  | 'A'
+  | 'B'
+  | 'C'
+  | 'D'
+  | 'E'
+  | 'F'
+  | 'a'
+  | 'b'
+  | 'c'
+  | 'd'
+  | 'e'
+  | 'f';
+
+export const hex: Parser<Hex> = is((c): c is Hex => /^[0-9A-Fa-f]/.test(c));
