@@ -1,6 +1,6 @@
 import test, { describe } from 'node:test';
 import { int } from '../../src/parser-combinator/int';
-import { ParserOutput } from '../../src/parser-combinator/types';
+import type { ParserOutput } from '../../src/parser-combinator/types';
 import assert from 'node:assert/strict';
 
 describe('int', () => {

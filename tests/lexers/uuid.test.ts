@@ -1,7 +1,7 @@
 import test, { describe } from 'node:test';
 import { uuid } from '../../src/lexers/uuid';
 import assert from 'node:assert/strict';
-import { ParserOutput } from '../../src/parser-combinator/types';
+import type { ParserOutput } from '../../src/parser-combinator/types';
 
 describe('uuid', () => {
   const parser = uuid;

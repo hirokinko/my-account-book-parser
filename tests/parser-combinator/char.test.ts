@@ -1,20 +1,6 @@
 import test, { describe } from 'node:test';
-import {
-  char,
-  is,
-  alpha,
-  upperAlpha,
-  lowerAlpha,
-  digit,
-  hex,
-} from '../../src/parser-combinator/char';
-import type {
-  Alphabet,
-  UpperAlphabet,
-  LowerAlphabet,
-  Digit,
-  Hex,
-} from '../../src/parser-combinator/char';
+import { char, is, alpha, upperAlpha, lowerAlpha, digit, hex } from '../../src/parser-combinator/char';
+import type { Alphabet, UpperAlphabet, LowerAlphabet, Digit, Hex } from '../../src/parser-combinator/char';
 import type { ParserOutput } from '../../src/parser-combinator/types';
 import assert from 'node:assert/strict';
 

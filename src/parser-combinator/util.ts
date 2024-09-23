@@ -52,10 +52,7 @@ export const opt: OptFunc = (p) => (input) => {
   if (r.result === 'fail') return r;
   return {
     result: 'success',
-    data:
-      r.data.length === 0
-        ? { status: 'none' }
-        : { status: 'some', value: r.data[0] },
+    data: r.data.length === 0 ? { status: 'none' } : { status: 'some', value: r.data[0] },
     rest: r.rest,
   };
 };
@@ -65,7 +62,4 @@ export const diff: DiffFunc = (p, q) => map(cat([not(q), p]), ([, r]) => r);
 
 type ListFunc = <T>(p: Parser<T>, delimiter: Parser<unknown>) => Parser<T[]>;
 export const list: ListFunc = (p, delimiter) =>
-  map(cat([p, rep(cat([delimiter, p]))]), ([first, rest]) => [
-    first,
-    ...rest.map(([, r]) => r),
-  ]);
+  map(cat([p, rep(cat([delimiter, p]))]), ([first, rest]) => [first, ...rest.map(([, r]) => r)]);

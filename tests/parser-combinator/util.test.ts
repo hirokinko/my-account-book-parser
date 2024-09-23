@@ -1,15 +1,8 @@
 import test, { describe } from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  diff,
-  list,
-  map,
-  opt,
-  Option,
-  str,
-} from '../../src/parser-combinator/util';
-import { char, Digit, digit } from '../../src/parser-combinator/char';
-import { ParserOutput } from '../../src/parser-combinator/types';
+import { diff, list, map, opt, type Option, str } from '../../src/parser-combinator/util';
+import { char, type Digit, digit } from '../../src/parser-combinator/char';
+import type { ParserOutput } from '../../src/parser-combinator/types';
 
 describe('map(digit, s => Number.parseInt(s, 10))', () => {
   const parser = map(digit, (s) => Number.parseInt(s, 10));

@@ -1,7 +1,7 @@
 import test, { describe } from 'node:test';
 import { bool } from '../../src/parser-combinator/bool';
 import assert from 'node:assert/strict';
-import { ParserOutput } from '../../src/parser-combinator/types';
+import type { ParserOutput } from '../../src/parser-combinator/types';
 
 describe('bool', () => {
   const parser = bool;

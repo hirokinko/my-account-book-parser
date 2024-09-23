@@ -1,6 +1,6 @@
 import test, { describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { ParserOutput } from '../../src/parser-combinator/types';
+import type { ParserOutput } from '../../src/parser-combinator/types';
 import { date } from '../../src/lexers/datetime';
 
 describe('date', () => {

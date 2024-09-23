@@ -3,11 +3,12 @@ import type { Parser, ParserData } from './types';
 type NotFunc = (p: Parser<unknown>) => Parser<null>;
 export const not: NotFunc = (p) => (input) => {
   const { line, col } = input;
-  if (p(input).result === 'success') {
-    return { result: 'fail', line, col };
-  } else {
-    return { result: 'success', data: null, rest: input };
-  }
+  // if (p(input).result === 'success') {
+  //   return { result: 'fail', line, col };
+  // } else {
+  //   return { result: 'success', data: null, rest: input };
+  // }
+  return p(input).result === 'success' ? { result: 'fail', line, col } : { result: 'success', data: null, rest: input };
 };
 
 type OrFunc = <T>(ps: Parser<T>[]) => Parser<T>;
@@ -20,9 +21,7 @@ export const or: OrFunc = (ps) => (input) => {
   return { result: 'fail', line, col };
 };
 
-type CatFunc = <T extends Parser<unknown>[]>(
-  ps: [...T]
-) => Parser<{ [K in keyof T]: ParserData<T[K]> }>;
+type CatFunc = <T extends Parser<unknown>[]>(ps: [...T]) => Parser<{ [K in keyof T]: ParserData<T[K]> }>;
 export const cat: CatFunc = (ps) => (input) => {
   const rs = [];
   let i = input;
