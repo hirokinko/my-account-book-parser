@@ -14,6 +14,7 @@ interface ParserFail {
   result: 'fail';
   col: number;
   line: number;
+  message?: string;
 }
 
 export type ParserOutput<T> = Readonly<ParserSuccess<T> | ParserFail>;
@@ -21,3 +22,5 @@ export type ParserOutput<T> = Readonly<ParserSuccess<T> | ParserFail>;
 export type Parser<T> = (input: ParserInput) => ParserOutput<T>;
 
 export type ParserData<P> = P extends Parser<infer T> ? T : never;
+
+export type ParserError = Error;

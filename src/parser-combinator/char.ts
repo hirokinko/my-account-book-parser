@@ -86,4 +86,4 @@ export type Hex =
   | 'e'
   | 'f';
 
-export const hex: Parser<Hex> = is((c): c is Hex => /^[0-9A-Fa-f]/.test(c));
+export const hex: Parser<Hex> = is((c): c is Hex => /^[0-9A-Fa-f]$/.test(c));

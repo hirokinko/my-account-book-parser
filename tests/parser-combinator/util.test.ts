@@ -47,6 +47,27 @@ describe('map(digit, s => Number.parseInt(s, 10))', () => {
   });
 });
 
+describe('map(digit, s => throw new Error("Invalid input")', () => {
+  const parser = map(digit, (_) => {
+    throw new Error('Invalid input');
+  });
+
+  test('Input any', () => {
+    const input = {
+      inputs: [...'5'],
+      line: 0,
+      col: 0,
+    };
+    const output = parser(input);
+    assert.deepStrictEqual<ParserOutput<number>>(output, {
+      result: 'fail',
+      line: 0,
+      col: 1,
+      message: 'Invalid input',
+    });
+  });
+});
+
 describe('str("true")', () => {
   const parser = str('true');
 

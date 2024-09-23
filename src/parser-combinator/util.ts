@@ -6,11 +6,23 @@ type MapFunc = <T, U>(p: Parser<T>, f: (a: T) => U) => Parser<U>;
 export const map: MapFunc = (p, f) => (input) => {
   const r = p(input);
   if (r.result === 'fail') return r;
-  return {
-    result: 'success',
-    data: f(r.data),
-    rest: r.rest,
-  };
+  try {
+    return {
+      result: 'success',
+      data: f(r.data),
+      rest: r.rest,
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return {
+        result: 'fail',
+        line: r.rest.line,
+        col: r.rest.col,
+        message: error.message,
+      };
+    }
+    throw error;
+  }
 };
 
 type StrFunc = <T extends string>(s: T) => Parser<T>;
